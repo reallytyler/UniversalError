@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oops! Something went wrong</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #1a1a1a;
+    color: #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .container {
+    text-align: center;
+    max-width: 600px;
+    padding: 20px;
+    z-index: 2;
+  }
+
+  h1 {
+    font-size: 4em;
+    margin-bottom: 0.2em;
+    color: #ff6f61;
+    cursor: pointer;
+  }
+
+  p {
+    font-size: 1.2em;
+    margin-bottom: 1.5em;
+  }
+
+  button {
+    background: #ff6f61;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1em;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    background: #ff3b2e;
+  }
+
+  /* Confetti */
+  .confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    top: -10px;
+    animation: fall linear infinite;
+    opacity: 0.8;
+  }
+
+  @keyframes fall {
+    to {
+      transform: translateY(110vh) rotate(360deg);
+    }
+  }
+
+  /* Floating hidden emoji */
+  .emoji {
+    position: absolute;
+    font-size: 2em;
+    opacity: 0.6;
+    animation: floaty 4s ease-in-out infinite alternate;
+  }
+
+  @keyframes floaty {
+    0% {transform: translateY(0);}
+    100% {transform: translateY(-20px);}
+  }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>404?</h1>
+  <p>Oops! Something went wrong. Click around, or maybe check the console for secrets!</p>
+  <button onclick="history.back()">Go Back</button>
+</div>
+
+<script>
+  // --- Easter Egg 1: Random confetti ---
+  for(let i=0;i<50;i++){
+    let c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random()*100 + 'vw';
+    c.style.width = c.style.height = Math.random()*8 + 4 + 'px';
+    c.style.background = `hsl(${Math.random()*360}, 70%, 60%)`;
+    c.style.animationDuration = (Math.random()*3+2) + 's';
+    document.body.appendChild(c);
+  }
+
+  // --- Easter Egg 2: Konami Code ---
+  const konami = [38,38,40,40,37,39,37,39,66,65];
+  let idx = 0;
+  window.addEventListener('keydown', e=>{
+    if(e.keyCode === konami[idx]) idx++;
+    else idx=0;
+    if(idx===konami.length){
+      alert('🎉 Konami Code Activated! 🎉');
+      idx=0;
+      for(let i=0;i<30;i++){
+        let e = document.createElement('div');
+        e.className='emoji';
+        e.innerText = ['💥','✨','🔥','🌈'][Math.floor(Math.random()*4)];
+        e.style.left = Math.random()*100+'vw';
+        e.style.top = Math.random()*100+'vh';
+        e.style.fontSize = (Math.random()*30+20)+'px';
+        document.body.appendChild(e);
+      }
+    }
+  });
+
+  // --- Easter Egg 3: Click header 5 times ---
+  let clicks = 0;
+  document.querySelector('h1').addEventListener('click', ()=>{
+    clicks++;
+    if(clicks===5){
+      alert('✨ Magic 5-click revealed! ✨');
+      clicks=0;
+    }
+  });
+
+  // --- Easter Egg 4: Console message ---
+  console.log('%cYou found a hidden message! Type "oops()" in console for a surprise!', 'color: #ff6f61; font-size: 16px;');
+  window.oops = () => alert('💥 Console easter egg triggered! 💥');
+
+  // --- Easter Egg 5: Random page background color on hover ---
+  document.querySelector('p').addEventListener('mouseenter', ()=>{
+    document.body.style.background = `hsl(${Math.random()*360}, 30%, 10%)`;
+  });
+
+  // --- Easter Egg 6: Button rainbow hover ---
+  let btn = document.querySelector('button');
+  btn.addEventListener('mouseenter', ()=>{
+    btn.style.background = `linear-gradient(90deg, hsl(${Math.random()*360},80%,60%), hsl(${Math.random()*360},80%,60%))`;
+  });
+  btn.addEventListener('mouseleave', ()=>{
+    btn.style.background = '#ff6f61';
+  });
+
+  // --- Easter Egg 7: Typing effect on paragraph click ---
+  let para = document.querySelector('p');
+  para.addEventListener('click', ()=>{
+    let text = 'You found the secret typing effect! ✨🎉';
+    para.innerText = '';
+    let i=0;
+    let interval = setInterval(()=>{
+      para.innerText += text[i];
+      i++;
+      if(i>=text.length) clearInterval(interval);
+    },50);
+  });
+
+  // --- Easter Egg 8: Press "R" for random confetti burst ---
+  window.addEventListener('keydown', e=>{
+    if(e.key.toLowerCase()==='r'){
+      for(let i=0;i<20;i++){
+        let c = document.createElement('div');
+        c.className='confetti';
+        c.style.left=Math.random()*100+'vw';
+        c.style.width=c.style.height=Math.random()*6+3+'px';
+        c.style.background=`hsl(${Math.random()*360},70%,60%)`;
+        c.style.animationDuration=(Math.random()*2+1)+'s';
+        document.body.appendChild(c);
+      }
+    }
+  });
+
+  // --- Easter Egg 9: Secret key "E" hides paragraph ---
+  window.addEventListener('keydown', e=>{
+    if(e.key.toLowerCase()==='e'){
+      para.style.display = para.style.display==='none' ? 'block' : 'none';
+    }
+  });
+
+  // --- Easter Egg 10: Secret key "B" spins header ---
+  window.addEventListener('keydown', e=>{
+    if(e.key.toLowerCase()==='b'){
+      let h = document.querySelector('h1');
+      h.style.transition = 'transform 0.5s';
+      h.style.transform = 'rotate('+Math.random()*360+'deg)';
+    }
+  });
+
+  // --- Easter Egg 11: Clicking body spawns emojis ---
+  document.body.addEventListener('click', e=>{
+    if(e.target.tagName==='BODY'){
+      let emo = document.createElement('div');
+      emo.className='emoji';
+      emo.innerText = ['💣','💫','🎉','🔥','🌈'][Math.floor(Math.random()*5)];
+      emo.style.left = e.clientX + 'px';
+      emo.style.top = e.clientY + 'px';
+      document.body.appendChild(emo);
+      setTimeout(()=>emo.remove(),2000);
+    }
+  });
+
+  // --- Easter Egg 12: Header drag rotation ---
+  let dragging=false;
+  let h1=document.querySelector('h1');
+  h1.addEventListener('mousedown', ()=>dragging=true);
+  window.addEventListener('mouseup', ()=>dragging=false);
+  window.addEventListener('mousemove', e=>{
+    if(dragging){
+      h1.style.transform=`rotate(${e.clientX}deg)`;
+    }
+  });
+
+  // --- Easter Egg 13: Secret rainbow text on header ---
+  setInterval(()=>{
+    h1.style.color=`hsl(${Math.random()*360},80%,60%)`;
+  },3000);
+
+  // --- Easter Egg 14: Press "S" to shake page ---
+  window.addEventListener('keydown', e=>{
+    if(e.key.toLowerCase()==='s'){
+      document.body.style.transition='transform 0.05s';
+      let count=0;
+      let interval=setInterval(()=>{
+        document.body.style.transform=`translate(${(Math.random()-0.5)*10}px, ${(Math.random()-0.5)*10}px)`;
+        count++;
+        if(count>10){clearInterval(interval);document.body.style.transform='';}
+      },50);
+    }
+  });
+
+  // --- Easter Egg 15: Press "C" to clear confetti ---
+  window.addEventListener('keydown', e=>{
+    if(e.key.toLowerCase()==='c'){
+      document.querySelectorAll('.confetti').forEach(c=>c.remove());
+    }
+  });
+
+  // --- Easter Egg 16: Press "M" to toggle dark/light ---
+  window.addEventListener('keydown', e=>{
+    if(e.key.toLowerCase()==='m'){
+      document.body.style.background = document.body.style.background==='#1a1a1a'?'#eee':'#1a1a1a';
+      document.body.style.color = document.body.style.color==='#eee'?'#111':'#eee';
+    }
+  });
+
+  // --- Easter Egg 17: Paragraph rainbow text ---
+  setInterval(()=>{
+    para.style.color=`hsl(${Math.random()*360},80%,70%)`;
+  },5000);
+
+  // --- Easter Egg 18: Random emoji every second ---
+  setInterval(()=>{
+    let e = document.createElement('div');
+    e.className='emoji';
+    e.innerText=['🌟','💥','🔥','💫','✨'][Math.floor(Math.random()*5)];
+    e.style.left=Math.random()*100+'vw';
+    e.style.top=Math.random()*100+'vh';
+    e.style.fontSize=(Math.random()*40+20)+'px';
+    document.body.appendChild(e);
+    setTimeout(()=>e.remove(),3000);
+  },1000);
+
+  // --- Easter Egg 19: Press "T" to type console message ---
+  window.addEventListener('keydown', e=>{
+    if(e.key.toLowerCase()==='t'){
+      console.log('%cYou pressed T! Secret console easter egg!', 'color:#00ffdd;font-size:16px');
+    }
+  });
+
+  // --- Easter Egg 20: Press "X" to spin button ---
+  window.addEventListener('keydown', e=>{
+    if(e.key.toLowerCase()==='x'){
+      btn.style.transition='transform 0.5s';
+      btn.style.transform=`rotate(${Math.random()*360}deg)`;
+    }
+  });
+
+</script>
+
+</body>
+</html>
